@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Mobile Menu</title>
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      .logo-link {
+        color: #fff;
+      }
+      img {
+        max-width: 100%;
+      }
+      ul {
+        list-style: none;
+        padding: 1rem;
+      }
+      li {
+        padding: 0.5rem 1rem;
+      }
+      a {
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 1.2rem;
+        display: block;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      a:hover {
+        color: #fff;
+      }
+
+      #site-container {
+        margin-top: 50px !important;
+      }
+
+      .mob-head {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: #333;
+        z-index: 50000;
+        width: 100%;
+        bottom: 0;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .mob-head .logo-link img {
+        width: 100px;
+      }
+      .topheadico {
+        display: block;
+        cursor: pointer;
+      }
+      header.clone {
+        display: none;
+      }
+      .main-menu li {
+        width: 100%;
+      }
+      .main-menu li a:hover {
+        background-color: #fff;
+        color: #333;
+      }
+      .main-menu {
+        align-items: flex-start;
+        min-width: 100%;
+        margin: 100px 0 20px;
+      }
+      .main-nav .logo-link {
+        display: none;
+      }
+      .main-menu ul {
+        position: relative !important;
+        top: 0;
+        left: 0;
+        display: none;
+      }
+      .main-menu > li:hover > ul {
+        visibility: hidden;
+        opacity: 0;
+        z-index: -1;
+      }
+      .main-menu li a:hover::after {
+        width: 0;
+      }
+      header:not(.clone) {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 0%;
+        bottom: 0;
+        z-index: 50;
+        background: #333;
+        color: #fff;
+        overflow-y: scroll;
+        transition: width 0.5s ease-in-out;
+      }
+      .main-menu li a {
+        color: #fff;
+        width: 100%;
+      }
+      .main-nav.navbar {
+        box-shadow: none;
+      }
+      ul.sub-menu {
+        transition: none;
+      }
+      .main-nav.navbar > .container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .main-menu.d-flex {
+        flex-direction: column;
+      }
+      .main-menu li {
+        padding-right: 10px;
+        width: 100%;
+      }
+      .submenu-container .sub-menu {
+        opacity: 1;
+        visibility: visible;
+        z-index: 10;
+        margin-left: 15px;
+        transform: translateX(0);
+        left: 0;
+        min-width: 100%;
+      }
+      .main-menu > li:hover > ul.sub-menu {
+        opacity: 1;
+        visibility: visible;
+        z-index: 10;
+        top: 0;
+        box-shadow: none;
+        position: relative;
+        background: transparent;
+        transition: none;
+      }
+      .sub-menu li {
+        text-align: left;
+      }
+      .sub-menu {
+        opacity: 0;
+        z-index: -5;
+        visibility: hidden;
+        display: none;
+        overflow: hidden;
+      }
+      .sub-menu.js-show {
+        z-index: 5;
+        opacity: 1;
+        overflow: auto;
+        visibility: visible;
+      }
+      .mob-icon {
+        position: fixed;
+        right: 20px;
+        top: 5px;
+        height: 40px;
+        width: 40px;
+        background: #000;
+        color: #fff;
+        z-index: 10;
+        padding: 5px;
+        cursor: pointer;
+      }
+
+      .mob-icon span {
+        background: #fff;
+        height: 2px;
+        width: 100%;
+        display: block;
+        position: relative;
+        top: 14px;
+        transition: all 0.2s ease-in-out;
+      }
+      .mob-icon span::before,
+      .mob-icon span::after {
+        content: "";
+        position: absolute;
+        top: -10px;
+        display: block;
+        background: #fff;
+        height: 2px;
+        width: 100%;
+        transition: all 0.3s ease-in-out;
+      }
+      .mob-icon span::after {
+        top: 10px;
+      }
+
+      .open-mob-menu header:not(.clone) {
+        transition: width 0.5s ease-in-out;
+        width: 100%;
+      }
+      .open-mob-menu .mob-icon span {
+        background: transparent;
+      }
+      .open-mob-menu .mob-icon span::before {
+        transform: translate(0, 10px) rotate(45deg);
+      }
+      .open-mob-menu .mob-icon span::after {
+        transform: translate(0px, -10px) rotate(-45deg);
+      }
+
+      form.lon-tracking {
+        position: relative;
+        margin: 0 auto;
+        width: 80%;
+      }
+      form input {
+        width: 100%;
+        margin: 0 auto;
+        display: block;
+        padding: 1rem 3rem 1rem 1rem;
+        font-size: 1.2rem;
+      }
+      button.search {
+        background: transparent;
+        border: 0;
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mob-head">
+      <a href="#" class="logo-link">
+        <img src="#" alt="Home" />
+      </a>
+
+      <div class="mob-icon">
+        <span></span>
+      </div>
+    </div>
+
+    <div id="main-wrapper">
+      <header id="site-header">
+        <nav class="main-nav navbar">
+          <div class="container">
+            <a href="#" class="logo-link">
+              <img src="#" alt="Home" />
+            </a>
+
+            <div class="mob-icon">
+              <span></span>
+            </div>
+
+            <ul class="main-menu d-flex">
+              <li>
+                <a href="#">Home</a>
+              </li>
+              <li class="submenu-container">
+                <a href="#">Services </a>
+                <ul class="sub-menu" style="display: none;">
+                  <li>
+                    <a href="#">Enclosed Transport</a>
+                  </li>
+                  <li>
+                    <a href="#">Open Transport</a>
+                  </li>
+                  <li>
+                    <a href="#">Low Costs &amp; Efficiency</a>
+                  </li>
+                  <li>
+                    <a href="#">Other Services</a>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a href="#">Contact</a>
+              </li>
+            </ul>
+            <div class="search-container">
+              <form
+                class="lon-tracking"
+                data-abide=""
+                novalidate=""
+                style="position:relative"
+                method="post"
+                accept-charset="utf-8"
+              >
+                <input
+                  type="text"
+                  name="tracking"
+                  id="tracking"
+                  placeholder="Enter Tracking"
+                />
+                <button type="submit" class="search">
+                  <i class="fa  fa-search"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+      jQuery(document).ready(function() {
+        $(".main-nav ul ul")
+          .closest("li")
+          .addClass("submenu-container");
+
+        $(".main-nav .submenu-container > a ").append(
+          "<i class='fa fa-angle-down topheadico'></i>"
+        );
+        $(".topheadico").on("click", function(e) {
+          e.preventDefault();
+          $(this).toggleClass("fa-angle-up");
+          $(this).toggleClass("fa-angle-down");
+
+          $(this)
+            .parent()
+            .next("ul")
+            .toggleClass("js-show");
+          $(this)
+            .parent()
+            .next("ul")
+            .slideToggle("slow");
+        });
+
+        $(".mob-icon").on("click", function(e) {
+          $("body").toggleClass("open-mob-menu");
+        });
+      });
+    </script>
+  </body>
+</html>
